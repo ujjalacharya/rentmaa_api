@@ -7,13 +7,17 @@ const Categories = require('../controllers/categories');
 //Properties routes
 Router
   .get('/properties', Properties.getAllProperties)
+  .get('/properties/:id', Properties.getProperty)
   .post('/properties', Properties.postProperty)
-  .get('/properties/:id', Properties.getProperty);
-
+  .put('/properties/:id', Properties.updateProperty)
+  .delete('/properties/:id', Properties.deleteProperty);
+  
 //Categories routes
 Router
   .get('/categories', Categories.getAllCategories)
+  .get('/categories/:id', Categories.getCategory)
   .post('/categories', Categories.postCategory)
-  .get('/categories/:id', Categories.getCategory);
+  .put('/categories/:id', Categories.updateCategory)
+  .delete('/categories/:id', Categories.deleteCategory);
 
 module.exports = Router;

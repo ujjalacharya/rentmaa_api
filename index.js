@@ -12,10 +12,9 @@ Joi.objectId    = require('joi-objectid')(Joi);
 app.use(express.json());
 
 //Connection to the database
-mongoose.connect(key.dbURI, { useNewUrlParser: true })
-    .then(() => {
-        console.log('Connected to the database...')
-    })
+mongoose
+    .connect(key.dbURI, { useNewUrlParser: true })
+    .then(() => {console.log('Connected to the database...') })
     .catch(err => console.log(err))
 
 //Import routes
@@ -24,4 +23,4 @@ app.use('/api', require('./routes'));
 //Starts the server
 app.listen(PORT, ()=>{
   console.log(`App started at PORT ${PORT}`)
-})
+});

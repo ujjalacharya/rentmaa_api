@@ -8,6 +8,7 @@ exports.getAllProperties = async(req, res) => {
   const properties = await Property.find({});
   res.status(200).json(properties);
 };
+
 // @@ POST api/properties
 // @@ desc POST Property
 // @@ access Private - TODO
@@ -39,7 +40,8 @@ exports.postProperty = async(req, res) => {
     return res.status(500).json('Error');
   }
 };
-// @@ GET api/property/:id
+
+// @@ GET api/properties/:id
 // @@ desc Get a Property
 // @@ access Public
 exports.getProperty = async(req, res) =>{
@@ -51,5 +53,32 @@ exports.getProperty = async(req, res) =>{
   }
   catch(err){
     return res.status(500).json('Error');
+  }
+}
+
+// @@ GET api/properties/:id
+// @@ desc Get a Property
+// @@ access Private - ToDO
+exports.updateProperty = async(req, res)=>{
+  try{
+    await Property.findByIdAndUpdate(req.params.id, req.body);
+    const updatedProperty = await Property.findById(req.params.id)
+    res.status(200).json(updatedProperty);
+  }
+  catch(err){
+    res.status(500).json('Error')
+  }
+}
+
+// @@ DELETE api/properties/:id
+// @@ desc Get a Property
+// @@ access Private - TODO
+exports.deleteProperty = async(req, res)=>{
+  try{
+    const deletedProperty = await Property.findByIdAndRemove(req.params.id);
+    res.status(200).json(deletedProperty);
+  }
+  catch(err){
+    res.status(500).json('Error')
   }
 }

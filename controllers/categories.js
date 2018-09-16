@@ -7,7 +7,8 @@ exports.getAllCategories = async(req, res) => {
   const categories = await Category.find({});
   res.status(200).json(categories);
 };
-// @@ POST api/category
+
+// @@ POST api/categories
 // @@ desc POST Category
 // @@ access Private - TODO
 exports.postCategory = async (req, res) => {
@@ -28,7 +29,8 @@ exports.postCategory = async (req, res) => {
   }
 
 };
-// @@ GET api/category/:id
+
+// @@ GET api/categories/:id
 // @@ desc Get a Category
 // @@ access Public
 exports.getCategory = async(req, res)=>{
@@ -40,5 +42,32 @@ exports.getCategory = async(req, res)=>{
   }
   catch(err){
     return res.status(500).json('Error')
+  }
+}
+
+// @@ PUT api/categories/:id
+// @@ desc Update a Category
+// @@ access Prive -TODO
+exports.updateCategory = async(req, res)=>{
+  try{
+    await Category.findByIdAndUpdate(req.params.id, req.body);
+    const updatedCategory = Category.findById(req.params.id);
+    res.status(200).json(updatedCategory)
+  }
+  catch(err){
+    res.status(500).json('Error')
+  }
+}
+
+// @@ DELETE api/categories/:id
+// @@ desc Get a Category
+// @@ access Private - TODO
+exports.deleteCategory= async(req, res)=>{
+  try{
+    const deletedCategory = await Category.findByIdAndRemove(req.params.id);
+    res.status(200).json(deletedCategory);
+  }
+  catch(err){
+    res.status(500).json('Error')
   }
 }

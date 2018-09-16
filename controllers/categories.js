@@ -20,3 +20,15 @@ exports.postCategory = async (req, res) => {
   }
 
 };
+
+exports.getCategory = async(req, res)=>{
+  try{
+    const category = await Category.findById(req.params.id);
+    if(!category) return res.status(400).json('No such category found');
+  
+    res.status(200).json(category);
+  }
+  catch(err){
+    return res.status(500).json('Error')
+  }
+}

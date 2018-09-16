@@ -10,6 +10,8 @@ Router
   .post('/properties', Properties.postProperty);
 
 //Categories routes
-Router.get('/api/categories', Categories.getAllCategories);
+Router
+  .get('/categories', Categories.getAllCategories)
+  .post('/categories', Categories.postCategory);
 
 module.exports = Router;

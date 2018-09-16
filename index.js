@@ -4,6 +4,10 @@ const key       = require('./config/key');
 const app       = express();
 const PORT      = process.env.PORT || 3000;
 
+//Third party
+const Joi    = require('joi');
+Joi.objectId = require('joi-objectid')(Joi);
+
 //express middleare for getting req.body
 app.use(express.json());
 

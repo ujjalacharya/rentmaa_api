@@ -1,18 +1,36 @@
-module.exports = {
+const { Property, validateProperty} = require("../models/Property");
+const {Category} = require("../models/Category");
 
-  getAllProperties(req, res){
-    res.send('Showing all properties');
-    
-  },
+//Show all properties
+exports.getAllProperties = async(req, res) => {
+  const properties = await Property.find({});
+  res.status(200).json(properties);
+};
 
-  postProperty(req, res){
-    const property= {};
-    property.title = req.body.title,
-    property.address = req.body.address,
-    property.price = req.body.price,
-    property.deposite = req.body.deposite
+// @@ POST api/properties
+// @@ desc POST Property
+// @@ access Private - TODO
+exports.postProperty = async(req, res) => {
+  
+  const {error} = validateProperty(req.body);
+  if (error) return res.status(400).send(error.details[0].message);
 
-    res.status(200).json(property);
-  }, 
+  const category =await Category.findById(req.body.categoryId);
+  if(!category) return res.status(400).send('No such category found')
 
-}
+  const property = new Property({
+    title: req.body.title,
+    address: req.body.address,
+    price: req.body.price,
+    status: req.body.status,
+    description: req.body.description,
+    category: {
+      _id: category._id,
+      name: category.name
+    }
+  })
+
+  const savedproperty = await property.save();
+
+  res.status(200).json(savedproperty);
+};

@@ -68,10 +68,11 @@ const PropertySchema = new Schema({
   }
 });
 
+//Property Validation from user input
 function validateProperty(property){
   const schema = {
-    title: Joi.string().required(),
-    address: Joi.string().required(),
+    title: Joi.string().required().min(2).max(25),
+    address: Joi.string().required().min(2).max(25),
     price: Joi.number().required(),
     status: Joi.required().valid('shared', 'private', 'pg'),
     userId: Joi.objectId(),

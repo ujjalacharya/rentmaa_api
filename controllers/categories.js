@@ -1,11 +1,19 @@
-const { Category } = require("../models/Category.js");
+const { Category, validateCategory } = require("../models/Category.js");
 
+// @@ GET api/categories
+// @@ desc GET all Categories
+// @@ access Public
 exports.getAllCategories = async(req, res) => {
   const categories = await Category.find({});
   res.status(200).json(categories);
 };
-
+// @@ POST api/category
+// @@ desc POST Category
+// @@ access Private - TODO
 exports.postCategory = async (req, res) => {
+
+  const {error} = validateCategory(req.body);
+  if (error) return res.status(400).send(error.details[0].message);
 
   try {
     const category = new Category({
@@ -20,7 +28,9 @@ exports.postCategory = async (req, res) => {
   }
 
 };
-
+// @@ GET api/category/:id
+// @@ desc Get a Category
+// @@ access Public
 exports.getCategory = async(req, res)=>{
   try{
     const category = await Category.findById(req.params.id);

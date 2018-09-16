@@ -1,12 +1,12 @@
 const express   = require('express');
-const mongoose  = require('mongoose');
 const key       = require('./config/key');
 const app       = express();
 const PORT      = process.env.PORT || 3000;
 
-//Third party
-const Joi    = require('joi');
-Joi.objectId = require('joi-objectid')(Joi);
+//Third party dependencies
+const mongoose  = require('mongoose');
+const Joi       = require('joi');
+Joi.objectId    = require('joi-objectid')(Joi);
 
 //express middleare for getting req.body
 app.use(express.json());

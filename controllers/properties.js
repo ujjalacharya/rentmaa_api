@@ -1,12 +1,13 @@
 const { Property, validateProperty} = require("../models/Property");
 const {Category} = require("../models/Category");
 
-//Show all properties
+// @@ GET api/properties
+// @@ desc GET all Properties
+// @@ access Public
 exports.getAllProperties = async(req, res) => {
   const properties = await Property.find({});
   res.status(200).json(properties);
 };
-
 // @@ POST api/properties
 // @@ desc POST Property
 // @@ access Private - TODO
@@ -38,7 +39,6 @@ exports.postProperty = async(req, res) => {
     return res.status(500).json('Error');
   }
 };
-
 // @@ GET api/property/:id
 // @@ desc Get a Property
 // @@ access Public

@@ -3,6 +3,7 @@ const Router = require('express').Router();
 //Importing controllers
 const Properties = require('../controllers/properties');
 const Categories = require('../controllers/categories');
+const Users = require('../controllers/users');
 
 //Properties routes
 Router
@@ -19,5 +20,10 @@ Router
   .post('/categories', Categories.postCategory)
   .put('/categories/:id', Categories.updateCategory)
   .delete('/categories/:id', Categories.deleteCategory);
+
+//User routes
+Router
+  // .post('/login', Users.loginUser)
+  .post('/register', Users.registerUser);
 
 module.exports = Router;

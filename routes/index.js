@@ -23,7 +23,7 @@ Router
 
 //User routes
 Router
-  // .post('/login', Users.loginUser)
-  .post('/register', Users.registerUser);
+  .post('/register', Users.registerUser)
+  .post('/login', Users.loginUser);
 
 module.exports = Router;

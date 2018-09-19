@@ -6,20 +6,22 @@ const Categories = require('../controllers/categories');
 const Users = require('../controllers/users');
 
 //Properties routes
-Router
-  .get('/properties', Properties.getAllProperties)
-  .get('/properties/:id', Properties.getProperty)
-  .post('/properties', Properties.postProperty)
-  .put('/properties/:id', Properties.updateProperty)
-  .delete('/properties/:id', Properties.deleteProperty);
+Router.route('/properties')
+  .get(Properties.getAllProperties)
+  .post(Properties.postProperty);
+Router.route('/properties/:id')
+  .get(Properties.getProperty)
+  .put(Properties.updateProperty)
+  .delete(Properties.deleteProperty);
   
 //Categories routes
-Router
-  .get('/categories', Categories.getAllCategories)
-  .get('/categories/:id', Categories.getCategory)
-  .post('/categories', Categories.postCategory)
-  .put('/categories/:id', Categories.updateCategory)
-  .delete('/categories/:id', Categories.deleteCategory);
+Router.route('/categories')
+  .get(Categories.getAllCategories)
+  .post(Categories.postCategory);
+Router.route('/categories/:id')
+  .get(Categories.getCategory)
+  .put(Categories.updateCategory)
+  .delete(Categories.deleteCategory);
 
 //User routes
 Router

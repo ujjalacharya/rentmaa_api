@@ -5,7 +5,7 @@ const {Category} = require("../models/Category");
 // @@ desc GET all Properties
 // @@ access Public
 exports.getAllProperties = async(req, res) => {
-  const properties = await Property.find({});
+  const properties = await Property.find({}).sort({date: -1});
   res.status(200).json(properties);
 };
 
@@ -17,7 +17,7 @@ exports.postProperty = async(req, res) => {
     const {error} = validateProperty(req.body);
     if (error) return res.status(400).send(error.details[0].message);
   
-    const category =await Category.findById(req.body.categoryId);
+    const category = await Category.findById(req.body.categoryId);
     if(!category) return res.status(400).send('No such category found')
   
     const property = new Property({

@@ -57,13 +57,19 @@ exports.getProperty = async(req, res) =>{
   }
 }
 
-// @@ GET api/properties/:id
+// @@ GET POST/properties/:id
 // @@ desc Get a Property
 // @@ access Private - ToDO
 exports.updateProperty = async(req, res)=>{
   try{
+    
+    const property =  await Property.findById(req.params.id);
+    if (property.user.toString() !== req.user.id) return res.status(401).json('Unauthorized');
+    console.log('sup')
+
     await Property.findByIdAndUpdate(req.params.id, req.body);
     const updatedProperty = await Property.findById(req.params.id)
+
     res.status(200).json(updatedProperty);
   }
   catch(err){

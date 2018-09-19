@@ -11,7 +11,7 @@ exports.getAllProperties = async(req, res) => {
 
 // @@ POST api/properties
 // @@ desc POST Property
-// @@ access Private - TODO
+// @@ access Private
 exports.postProperty = async(req, res) => {
   try{
     const {error} = validateProperty(req.body);
@@ -57,12 +57,11 @@ exports.getProperty = async(req, res) =>{
   }
 }
 
-// @@ GET POST/properties/:id
+// @@ GET PUT/properties/:id
 // @@ desc Get a Property
-// @@ access Private - ToDO
+// @@ access Private
 exports.updateProperty = async(req, res)=>{
   try{
-    
     const property =  await Property.findById(req.params.id);
     if (property.user.toString() !== req.user.id) return res.status(401).json('Unauthorized');
     console.log('sup')
@@ -73,13 +72,13 @@ exports.updateProperty = async(req, res)=>{
     res.status(200).json(updatedProperty);
   }
   catch(err){
-    res.status(500).json('Error')
+    res.status(404).json('No post found');
   }
 }
 
 // @@ DELETE api/properties/:id
 // @@ desc Get a Property
-// @@ access Private - TODO
+// @@ access Private
 exports.deleteProperty = async(req, res)=>{
   try{
    const property =  await Property.findById(req.params.id);
@@ -89,5 +88,23 @@ exports.deleteProperty = async(req, res)=>{
   }
   catch(err){
     res.status(500).json('Error')
+  }
+}
+
+// @@ POST api/posts/like/:id
+// @@ desc POST LIkes to posts
+// @@ access Private
+exports.likeProperty = async(req, res) => {
+  try{
+   const property = await Property.findById(req.params.id);
+   if(property.likes.filter(like => like.user.toString() === req.user.id).length > 0){
+    return res.status(400).json({ alreadyliked: 'User already likes this post' })     
+   }
+   property.likes.unshift({ user: req.user.id });
+   const savedproperty = await property.save();
+   res.status(200).json(savedproperty);
+  }
+  catch(err){
+    res.status(404).json({ notfound: 'No such post found' })
   }
 }

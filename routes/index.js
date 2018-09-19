@@ -15,6 +15,8 @@ Router.route('/properties/:id')
   .get(Properties.getProperty)
   .put(ensureAuth, Properties.updateProperty)
   .delete(ensureAuth, Properties.deleteProperty);
+Router.route('/properties/like/:id')
+  .post(ensureAuth, Properties.likeProperty);
   
 //Categories routes
 Router.route('/categories')

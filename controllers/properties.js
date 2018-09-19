@@ -26,6 +26,7 @@ exports.postProperty = async(req, res) => {
       price: req.body.price,
       status: req.body.status,
       description: req.body.description,
+      user: req.user.id,
       category: {
         _id: category._id,
         name: category.name
@@ -75,8 +76,10 @@ exports.updateProperty = async(req, res)=>{
 // @@ access Private - TODO
 exports.deleteProperty = async(req, res)=>{
   try{
-    const deletedProperty = await Property.findByIdAndRemove(req.params.id);
-    res.status(200).json(deletedProperty);
+   const property =  await Property.findById(req.params.id);
+   if (property.user.toString() !== req.user.id) return res.status(401).json('Unauthorized');
+   const removedproperty = await property.remove();
+   res.json({ success: true, removedproperty })
   }
   catch(err){
     res.status(500).json('Error')

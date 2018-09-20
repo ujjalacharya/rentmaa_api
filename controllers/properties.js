@@ -143,3 +143,27 @@ exports.commentProperty = async(req, res)=>{
     res.status(500).json('Error');
   }
 }
+
+// @@ DELETE api/posts/comment/:id
+// @@ desc DELETE comment to property
+// @@ access Private
+exports.deleteComment = async(req, res)=>{
+  try{
+    const property = await Property.findById(req.params.id);
+    if (property.comments.filter(comment => comment._id.toString() === req.params.comment_id).length === 0) {
+      return res.status(404).json({notfound: 'Comment not found'})
+    }
+    const commentToBeDeleted = property.comments.filter(comment =>comment._id.toString() === req.params.comment_id);
+    
+    if(commentToBeDeleted[0].user.toString() !== req.user.id){
+      return res.status(400).json('Unauthorized');
+    }
+
+    const removeIndex = property.comments.map(comment =>comment._id.toString()).indexOf(req.params.comment_id);
+    property.comments.splice(removeIndex, 1);
+    const savedproperty = await property.save();
+    res.status(200).json(savedproperty)
+  }catch(err){
+    res.status(404).json({notfound: 'No post found'})
+  }        
+}

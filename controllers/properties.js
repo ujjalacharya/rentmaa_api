@@ -93,7 +93,7 @@ exports.deleteProperty = async(req, res)=>{
   }
 }
 
-// @@ POST api/posts/like/:id
+// @@ Get api/posts/like/:id
 // @@ desc POST Likes/Unlikes to posts
 // @@ access Private
 exports.likeProperty = async(req, res) => {
@@ -153,7 +153,7 @@ exports.deleteComment = async(req, res)=>{
     if (property.comments.filter(comment => comment._id.toString() === req.params.comment_id).length === 0) {
       return res.status(404).json({notfound: 'Comment not found'})
     }
-    const commentToBeDeleted = property.comments.filter(comment =>comment._id.toString() === req.params.comment_id);
+    const commentToBeDeleted = property.comments.filter(comment =>comment._id.toString()===req.params.comment_id)
     
     if(commentToBeDeleted[0].user.toString() !== req.user.id){
       return res.status(400).json('Unauthorized');

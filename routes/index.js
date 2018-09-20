@@ -16,7 +16,7 @@ Router.route('/properties/:id')
   .put(ensureAuth, Properties.updateProperty)
   .delete(ensureAuth, Properties.deleteProperty);
 Router.route('/properties/like/:id')
-  .post(ensureAuth, Properties.likeProperty);
+  .get(ensureAuth, Properties.likeProperty);
 Router.route('/properties/comment/:id')
   .post(ensureAuth, Properties.commentProperty);
 Router.route('/properties/comment/:id/:comment_id')

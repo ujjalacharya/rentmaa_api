@@ -1,5 +1,7 @@
 const { Property, validateProperty} = require("../models/Property");
 const {Category} = require("../models/Category");
+const {User} = require("../models/User");
+const {validateComment} = require('../validation');
 
 // @@ GET api/properties
 // @@ desc GET all Properties
@@ -92,7 +94,7 @@ exports.deleteProperty = async(req, res)=>{
 }
 
 // @@ POST api/posts/like/:id
-// @@ desc POST LIkes to posts
+// @@ desc POST Likes/Unlikes to posts
 // @@ access Private
 exports.likeProperty = async(req, res) => {
   let isliked = {value: false};
@@ -114,5 +116,30 @@ exports.likeProperty = async(req, res) => {
   }
   catch(err){
     res.status(404).json({ notfound: 'No such post found' })
+  }
+}
+
+// @@ POST api/posts/comment/:id
+// @@ desc POST comment to property
+// @@ access Private
+exports.commentProperty = async(req, res)=>{
+  try{
+    const {error} = validateComment(req.body);
+    if (error) return res.status(400).send(error.details[0].message);
+
+    const property = await Property.findById(req.params.id);
+    const user = await User.findById(req.user.id);
+    
+    const newcomment = {
+      user: req.user.id,
+      name: user.name,
+      text: req.body.text
+    };
+    property.comments.unshift(newcomment);
+    const savedproperty = await property.save();
+    res.status(200).json(savedproperty);
+  }
+  catch(err){
+    res.status(500).json('Error');
   }
 }

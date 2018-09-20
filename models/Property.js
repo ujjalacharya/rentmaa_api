@@ -45,6 +45,9 @@ const PropertySchema = new Schema({
         type: String,
         required: true
       },
+      name: {
+        type: String
+      },
       date: {
         type: Date,
         default: Date.now

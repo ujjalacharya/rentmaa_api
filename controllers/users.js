@@ -1,12 +1,8 @@
-const {
-  User,
-  validateRegisteration,
-  validateLoginUser
-} = require("../models/User");
+const {User} = require("../models/User");
 const {secretKey, expireTime} = require('../config/keys.js');
 const bcrypt = require("bcryptjs");
-const passport = require('passport');
 const jwt = require('jsonwebtoken');
+const {validateRegisteration, validateLoginUser} = require('../validation');
 
 // @@ POST api/register/
 // @@ desc Register a User

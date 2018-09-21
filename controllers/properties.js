@@ -1,7 +1,7 @@
 const { Property, validateProperty} = require("../models/Property");
 const {Category} = require("../models/Category");
 const {User} = require("../models/User");
-const {validateComment} = require('../validation');
+const {validateComment, validateProperty} = require('../validation');
 
 // @@ GET api/properties
 // @@ desc GET all Properties

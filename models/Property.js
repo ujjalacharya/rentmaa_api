@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const Joi = require('joi');
 const {CategorySchema} = require('./Category');
 
 const Schema = mongoose.Schema;
@@ -75,20 +74,5 @@ const PropertySchema = new Schema({
     default: Date.now
   }
 });
-
-//Property Validation from user input
-function validateProperty(property){
-  const schema = {
-    title: Joi.string().required().min(2).max(25),
-    address: Joi.string().required().min(2).max(25),
-    price: Joi.number().required(),
-    status: Joi.required().valid('shared', 'private', 'pg'),
-    userId: Joi.objectId(),
-    categoryId: Joi.objectId().required()
-  }
-  return Joi.validate(property, schema);
-}
-
-exports.validateProperty = validateProperty;
 
 exports.Property = mongoose.model('property', PropertySchema);

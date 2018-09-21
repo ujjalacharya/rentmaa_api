@@ -167,3 +167,18 @@ exports.deleteComment = async(req, res)=>{
     res.status(404).json({notfound: 'No post found'})
   }        
 }
+
+// @@ GET api/properties/query
+// @@ desc GET property by location query
+// @@ access Public
+exports.queryProperty = async(req, res)=>{
+  try{
+    const query = req.query.location;
+    let result = await Property.find({address: {'$regex': query, '$options': 'i'}});
+    if(!result) throw new Error();
+    res.status(200).json(result) //Result is in array
+  }
+  catch(err){
+    res.status(404).json({notfound: 'No result found'})
+  }
+}

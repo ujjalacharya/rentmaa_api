@@ -12,6 +12,8 @@ const Users = require('../controllers/users');
 Router.route('/properties')
   .get(Properties.getAllProperties)
   .post(ensureAuth, Properties.postProperty);
+Router.route('/properties/search')
+  .get(Properties.queryProperty)
 Router.route('/properties/:id')
   .get(Properties.getProperty)
   .put(ensureAuth, Properties.updateProperty)

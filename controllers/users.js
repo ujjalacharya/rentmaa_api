@@ -3,6 +3,7 @@ const {secretKey, expireTime} = require('../config/keys.js');
 const bcrypt = require("bcryptjs");
 const jwt = require('jsonwebtoken');
 const {validateRegisteration, validateLoginUser} = require('../validation');
+const upload = require('../helpers/multer');
 
 // @@ POST api/register/
 // @@ desc Register a User
@@ -24,6 +25,12 @@ exports.registerUser = async (req, res) => {
     const salt = await bcrypt.genSalt(10);
     newuser.password = await bcrypt.hash(newuser.password, salt);
     await newuser.save();
+
+    upload(req, res, async function(){
+      const newuser = await new User();
+      newuser.avatar = req.file.avatar;
+      await newuser.save();
+    })
 
     res.status(200).json({
       name: newuser.name,

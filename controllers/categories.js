@@ -1,4 +1,5 @@
-const { Category, validateCategory } = require("../models/Category.js");
+const { Category} = require("../models/Category.js");
+const {validateCategory} = require('../validation')
 
 // @@ GET api/categories
 // @@ desc GET all Categories

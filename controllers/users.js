@@ -3,7 +3,6 @@ const {secretKey, expireTime} = require('../config/keys.js');
 const bcrypt = require("bcryptjs");
 const jwt = require('jsonwebtoken');
 const {validateRegisteration, validateLoginUser} = require('../validation');
-const upload = require('../helpers/multer');
 
 // @@ POST api/register/
 // @@ desc Register a User
@@ -16,25 +15,27 @@ exports.registerUser = async (req, res) => {
     const user = await User.findOne({ email: req.body.email });
     if (user) return res.status(400).send("User already exists!");
 
+    if(req.file !== undefined){
+      req.body.image = 'avatars/'+req.file.filename;
+     }else{
+      req.body.image = 'avatars/default.jpg';
+     }
+
     const newuser = new User({
       name: req.body.name,
       email: req.body.email,
-      password: req.body.password
+      password: req.body.password,
+      avatar: req.body.image
     });
 
     const salt = await bcrypt.genSalt(10);
     newuser.password = await bcrypt.hash(newuser.password, salt);
     await newuser.save();
 
-    upload(req, res, async function(){
-      const newuser = await new User();
-      newuser.avatar = req.file.avatar;
-      await newuser.save();
-    })
-
     res.status(200).json({
       name: newuser.name,
-      email: newuser.email
+      email: newuser.email,
+      avatar: newuser.avatar
     });
   } catch (err) {
     res.status(500).json("Error");

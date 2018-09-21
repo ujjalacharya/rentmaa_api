@@ -1,6 +1,7 @@
 const Router = require('express').Router();
 const passport = require('passport');
 const ensureAuth = passport.authenticate('jwt', { session: false });
+const {uploadAvatar} = require('../helpers/multer');
 
 //Importing controllers
 const Properties = require('../controllers/properties');
@@ -33,7 +34,7 @@ Router.route('/categories/:id')
 
 //User routes
 Router
-  .post('/register', Users.registerUser)
+  .post('/register',uploadAvatar, Users.registerUser)
   .post('/login', Users.loginUser);
 
 module.exports = Router;

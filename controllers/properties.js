@@ -1,4 +1,4 @@
-const { Property, validateProperty} = require("../models/Property");
+const { Property } = require("../models/Property");
 const {Category} = require("../models/Category");
 const {User} = require("../models/User");
 const {validateComment, validateProperty} = require('../validation');

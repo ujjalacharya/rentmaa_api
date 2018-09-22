@@ -58,7 +58,7 @@ exports.loginUser = async (req, res) => {
     if (!isAuth) return res.status(400).json("Password did not match");
 
     // res.status(200).json('Authorized');
-    const payload = { id: user.id, name: user.name };
+    const payload = { id: user.id, name: user.name, isAdmin: user.isAdmin };
 
     jwt.sign(payload, secretKey, { expiresIn: expireTime }, (err, token) => {
       res.json({

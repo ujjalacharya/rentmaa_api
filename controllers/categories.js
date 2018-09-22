@@ -5,6 +5,7 @@ const {validateCategory} = require('../validation')
 // @@ desc GET all Categories
 // @@ access Public
 exports.getAllCategories = async(req, res) => {
+  console.log(req.user)
   const categories = await Category.find({});
   res.status(200).json(categories);
 };

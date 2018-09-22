@@ -85,7 +85,7 @@ exports.updateProperty = async(req, res)=>{
 exports.deleteProperty = async(req, res)=>{
   try{
    const property =  await Property.findById(req.params.id);
-   if (property.user.toString() !== req.user.id) return res.status(401).json('Unauthorized');
+   if (property.user.toString() !== req.user.id && !req.user.isAdmin) return res.status(401).json('Unauthorized')
    const removedproperty = await property.remove();
    res.json({ success: true, removedproperty })
   }
@@ -156,7 +156,7 @@ exports.deleteComment = async(req, res)=>{
     }
     const commentToBeDeleted = property.comments.filter(comment =>comment._id.toString()===req.params.comment_id)
     
-    if(commentToBeDeleted[0].user.toString() !== req.user.id){
+    if(commentToBeDeleted[0].user.toString() !== req.user.id && !req.user.isAdmin){
       return res.status(400).json('Unauthorized');
     }
 

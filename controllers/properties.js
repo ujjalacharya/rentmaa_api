@@ -51,7 +51,8 @@ exports.getProperty = async(req, res) =>{
   try{
     const property = await Property.findById(req.params.id);
     if(!property) return res.status(404).json('No such property found');
-  
+    property.numberOfViews +=1;
+    await property.save();
     res.status(200).json(property);
   }
   catch(err){

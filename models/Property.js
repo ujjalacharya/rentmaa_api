@@ -21,7 +21,10 @@ const PropertySchema = new Schema({
     required: true
   },
   images: [],
-  numberOfViews: Number,
+  numberOfViews: {
+    type: Number,
+    default: 0
+  },
   category: {
     type: CategorySchema,
     required: true

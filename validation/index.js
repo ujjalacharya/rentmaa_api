@@ -29,7 +29,7 @@ exports.validateLoginUser = (user) => {
 //Property Validation from user input
 exports.validateProperty = (property) => {
   const schema = {
-    title: Joi.string().required().min(2).max(25),
+    title: Joi.string().required().min(2).max(255),
     address: Joi.string().required().min(2).max(25),
     price: Joi.number().required(),
     status: Joi.required().valid('shared', 'private', 'pg'),

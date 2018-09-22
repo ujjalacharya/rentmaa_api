@@ -7,7 +7,7 @@ const {validateComment, validateProperty} = require('../validation');
 // @@ desc GET all Properties
 // @@ access Public
 exports.getAllProperties = async(req, res) => {
-  const properties = await Property.find({}).sort({date: -1});
+  const properties = await Property.find({approved: true}).sort({date: -1});
   res.status(200).json(properties);
 };
 
@@ -51,6 +51,7 @@ exports.getProperty = async(req, res) =>{
   try{
     const property = await Property.findById(req.params.id);
     if(!property) return res.status(404).json('No such property found');
+    if(!property.approved) return res.status(401).json('Cannot access this property')
     property.numberOfViews +=1;
     await property.save();
     res.status(200).json(property);
@@ -67,7 +68,6 @@ exports.updateProperty = async(req, res)=>{
   try{
     const property =  await Property.findById(req.params.id);
     if (property.user.toString() !== req.user.id) return res.status(401).json('Unauthorized');
-    console.log('sup')
 
     await Property.findByIdAndUpdate(req.params.id, req.body);
     const updatedProperty = await Property.findById(req.params.id)

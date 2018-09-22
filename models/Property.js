@@ -75,6 +75,10 @@ const PropertySchema = new Schema({
   date: {
     type: Date,
     default: Date.now
+  },
+  approved: {
+    type: Boolean,
+    default: false
   }
 });
 

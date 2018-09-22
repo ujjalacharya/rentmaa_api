@@ -1,6 +1,8 @@
 const Router = require('express').Router();
-const passport = require('passport');
-const ensureAuth = passport.authenticate('jwt', { session: false });
+const isAdmin = require('passport');
+const isLogin = require('passport');
+const ensureAuth = isLogin.authenticate('login-rule', { session: false });
+const ensureAdmin = isAdmin.authenticate('admin-rule', { session: false });
 const {uploadAvatar} = require('../helpers/multer');
 
 //Importing controllers
@@ -27,7 +29,7 @@ Router.route('/properties/comment/:id/:comment_id')
   
 //Categories routes
 Router.route('/categories')
-  .get(Categories.getAllCategories)
+  .get(ensureAdmin, Categories.getAllCategories)
   .post(ensureAuth, Categories.postCategory);
 Router.route('/categories/:id')
   .get(Categories.getCategory)

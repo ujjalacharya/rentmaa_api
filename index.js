@@ -23,7 +23,8 @@ app.use(bodyParser.json());
 
 //Passport middleware
 app.use(passport.initialize());
-require('./config/passport')(passport);
+require('./config/passport').isAdmin(passport);
+require('./config/passport').isLogin(passport);
 
 //Import routes
 app.use('/api', require('./routes'));

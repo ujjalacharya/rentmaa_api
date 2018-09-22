@@ -12,6 +12,7 @@ Joi.objectId    = require('joi-objectid')(Joi);
 
 //Connection to the database
 mongoose
+    .set('useCreateIndex', true)
     .connect(dbURI, { useNewUrlParser: true })
     .then(() => {console.log('Connected to the database...') })
     .catch(err => console.log(err))
@@ -19,7 +20,6 @@ mongoose
 //body parser for the params
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
-
 
 //Passport middleware
 app.use(passport.initialize());

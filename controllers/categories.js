@@ -5,7 +5,6 @@ const {validateCategory} = require('../validation')
 // @@ desc GET all Categories
 // @@ access Public
 exports.getAllCategories = async(req, res) => {
-  console.log(req.user)
   const categories = await Category.find({});
   res.status(200).json(categories);
 };
@@ -52,9 +51,11 @@ exports.getCategory = async(req, res)=>{
 // @@ access Prive -TODO
 exports.updateCategory = async(req, res)=>{
   try{
-    await Category.findByIdAndUpdate(req.params.id, req.body);
-    const updatedCategory = Category.findById(req.params.id);
-    res.status(200).json(updatedCategory)
+  //  const updatedCategory = await Category.findOneAndUpdate({_id: req.params.id}, {$set:{name: req.body.name}}, {new: true});
+    const category = await Category.findById(req.params.id);
+    category.name = req.body.name;
+    await category.save();
+    res.status(200).json(category);
   }
   catch(err){
     res.status(500).json('Error')
@@ -66,7 +67,7 @@ exports.updateCategory = async(req, res)=>{
 // @@ access Private - TODO
 exports.deleteCategory= async(req, res)=>{
   try{
-    const deletedCategory = await Category.findByIdAndRemove(req.params.id);
+    const deletedCategory = await Category.findOneAndDelete({_id: req.params.id});
     res.status(200).json(deletedCategory);
   }
   catch(err){

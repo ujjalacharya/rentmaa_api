@@ -1,7 +1,7 @@
 const Router = require('express').Router();
 const isAdmin = require('passport');
 const isLogin = require('passport');
-const ensureAuth = isLogin.authenticate('login-rule', { session: false });
+const ensureLogin = isLogin.authenticate('login-rule', { session: false });
 const ensureAdmin = isAdmin.authenticate('admin-rule', { session: false });
 const {uploadAvatar} = require('../helpers/multer');
 
@@ -13,28 +13,28 @@ const Users = require('../controllers/users');
 //Properties routes
 Router.route('/properties')
   .get(Properties.getAllProperties)
-  .post(ensureAuth, Properties.postProperty);
+  .post(ensureLogin, Properties.postProperty);
 Router.route('/properties/search')
   .get(Properties.queryProperty)
 Router.route('/properties/:id')
   .get(Properties.getProperty)
-  .put(ensureAuth, Properties.updateProperty)
-  .delete(ensureAuth, Properties.deleteProperty);
+  .put(ensureLogin, Properties.updateProperty)
+  .delete(ensureLogin, Properties.deleteProperty);
 Router.route('/properties/like/:id')
-  .get(ensureAuth, Properties.likeProperty);
+  .get(ensureLogin, Properties.likeProperty);
 Router.route('/properties/comment/:id')
-  .post(ensureAuth, Properties.commentProperty);
+  .post(ensureLogin, Properties.commentProperty);
 Router.route('/properties/comment/:id/:comment_id')
-  .delete(ensureAuth, Properties.deleteComment);
+  .delete(ensureLogin, Properties.deleteComment);
   
 //Categories routes
 Router.route('/categories')
-  .get(ensureAdmin, Categories.getAllCategories)
-  .post(ensureAuth, Categories.postCategory);
+  .get(Categories.getAllCategories)
+  .post(ensureAdmin, Categories.postCategory);
 Router.route('/categories/:id')
-  .get(Categories.getCategory)
-  .put(ensureAuth, Categories.updateCategory)
-  .delete(ensureAuth, Categories.deleteCategory);
+  .get(ensureAdmin, Categories.getCategory)
+  .put(ensureAdmin, Categories.updateCategory)
+  .delete(ensureAdmin, Categories.deleteCategory);
 
 //User routes
 Router

@@ -98,14 +98,14 @@ exports.deleteProperty = async(req, res)=>{
 // @@ desc POST Likes/Unlikes to posts
 // @@ access Private
 exports.likeProperty = async(req, res) => {
-  let isliked = {value: false};
+  let isliked = false;
   try{
    const property = await Property.findById(req.params.id);
    if(property.likes.filter(like => like.user.toString() === req.user.id).length > 0){
     // return res.status(400).json({ alreadyliked: 'User already likes this post' })  
-    isliked.value = true;
+    isliked = true;
    }
-   if(isliked.value){
+   if(isliked){
     const removeIndex = property.likes.map(like => like.user.toString()).indexOf(req.user.id);
     property.likes.splice(removeIndex, 1);
     const savedproperty = await property.save();

@@ -11,6 +11,14 @@ exports.getAllProperties = async(req, res) => {
   res.status(200).json(properties);
 };
 
+// @@ GET api/unapprovedporoperties
+// @@ desc GET all Unapproved Properties
+// @@ access Private- Admin
+exports.getAllUnapprovedProperties = async(req, res) => {
+  const unapprovedproperties = await Property.find({approved: false}).sort({date: -1});
+  res.status(200).json(unapprovedproperties);
+};
+
 // @@ POST api/properties
 // @@ desc POST Property
 // @@ access Private
@@ -181,5 +189,21 @@ exports.queryProperty = async(req, res)=>{
   }
   catch(err){
     res.status(404).json({notfound: 'No result found'})
+  }
+}
+
+// @@ PUT api/change-state-property/:id
+// @@ desc PUT property approved state
+// @@ access Private-Admin
+exports.changePropertyState = async(req, res)=>{
+  try{
+    const property = await Property.findById(req.params.id);
+    if(!property) return res.status(404).json('No such property found');
+    property.approved = !property.approved;
+    await property.save();
+    res.status(200).json(property);
+  }
+  catch(err){
+    return res.status(500).json('Error');
   }
 }

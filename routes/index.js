@@ -15,7 +15,11 @@ Router.route('/properties')
   .get(Properties.getAllProperties)
   .post(ensureLogin, Properties.postProperty);
 Router.route('/properties/search')
-  .get(Properties.queryProperty)
+  .get(Properties.queryProperty);
+Router.route('/unapprovedproperties')
+  .get(ensureAdmin, Properties.getAllUnapprovedProperties);
+Router.route('/change-property-state/:id')
+  .get(ensureAdmin, Properties.changePropertyState);
 Router.route('/properties/:id')
   .get(Properties.getProperty)
   .put(ensureLogin, Properties.updateProperty)

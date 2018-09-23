@@ -15,4 +15,4 @@ let userAvatar = multer.diskStorage({
 
  //management of the storage and the file that will be uploaded 
  //.single expects the name of the file input field
-exports.uploadAvatar= multer({storage: userAvatar}).single("avatar");
+exports.uploadAvatar= multer({storage: userAvatar}).array("avatar");

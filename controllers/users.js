@@ -15,19 +15,26 @@ exports.registerUser = async (req, res) => {
     const user = await User.findOne({ email: req.body.email });
     if (user) return res.status(400).send("User already exists!");
 
-    if(req.file !== undefined){
-      req.body.image = 'avatars/'+req.file.filename;
+    // console.log(req.files)
+    let image = [];
+
+    if(req.files !== undefined){
+      req.files.map((file, i)=>{
+        image[i] = 'avatars/'+file.filename;
+      })
+      // req.body.image = 'avatars/'+req.file.filename;
      }else{
-      req.body.image = 'avatars/default.jpg';
+      image = 'avatars/default.jpg';
      }
+     console.log(image)
 
     const newuser = new User({
       name: req.body.name,
       email: req.body.email,
       password: req.body.password,
-      avatar: req.body.image
+      // avatar: req.body.image
     });
-
+    newuser.avatar.unshift(image)
     const salt = await bcrypt.genSalt(10);
     newuser.password = await bcrypt.hash(newuser.password, salt);
     await newuser.save();

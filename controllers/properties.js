@@ -32,21 +32,22 @@ exports.postProperty = async(req, res) => {
 
     let image = [];
 
+    //Setting image
     if(req.files !== undefined){
       req.files.map((file, i)=>{
         image[i] = 'properties/'+file.filename;
       })
-      // req.body.image = 'avatars/'+req.file.filename;
      }else{
       image = 'properties/default.jpg';
      }
-     console.log(image)
+
     const property = new Property({
       title: req.body.title,
       address: req.body.address,
       price: req.body.price,
       status: req.body.status,
-      // user: req.user.id,
+      description: req.body.description,
+      user: req.user.id,
       category: {
         _id: category._id,
         name: category.name

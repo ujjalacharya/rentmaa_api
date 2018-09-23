@@ -3,11 +3,11 @@ const {CategorySchema} = require('./Category');
 
 const Schema = mongoose.Schema;
 const PropertySchema = new Schema({
-  // user: {
-  //   type: Schema.Types.ObjectId,
-  //   required: true,
-  //   ref: "users"
-  // },
+  user: {
+    type: Schema.Types.ObjectId,
+    required: true,
+    ref: "users"
+  },
   title: {
     type: String,
     required: true

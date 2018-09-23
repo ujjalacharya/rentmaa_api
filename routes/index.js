@@ -13,7 +13,7 @@ const Users = require('../controllers/users');
 //Properties routes
 Router.route('/properties')
   .get(Properties.getAllProperties)
-  .post(uploadPropertyImages, Properties.postProperty);
+  .post(ensureLogin, uploadPropertyImages, Properties.postProperty);
 Router.route('/properties/search')
   .get(Properties.queryProperty);
 Router.route('/unapprovedproperties')

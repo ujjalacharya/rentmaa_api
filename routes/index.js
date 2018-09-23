@@ -3,7 +3,7 @@ const isAdmin = require('passport');
 const isLogin = require('passport');
 const ensureLogin = isLogin.authenticate('login-rule', { session: false });
 const ensureAdmin = isAdmin.authenticate('admin-rule', { session: false });
-const {uploadAvatar} = require('../helpers/multer');
+const {uploadAvatar, uploadPropertyImages} = require('../helpers/multer');
 
 //Importing controllers
 const Properties = require('../controllers/properties');
@@ -13,7 +13,7 @@ const Users = require('../controllers/users');
 //Properties routes
 Router.route('/properties')
   .get(Properties.getAllProperties)
-  .post(ensureLogin, Properties.postProperty);
+  .post(uploadPropertyImages, Properties.postProperty);
 Router.route('/properties/search')
   .get(Properties.queryProperty);
 Router.route('/unapprovedproperties')

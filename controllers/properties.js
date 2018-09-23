@@ -28,21 +28,31 @@ exports.postProperty = async(req, res) => {
     if (error) return res.status(400).send(error.details[0].message);
   
     const category = await Category.findById(req.body.categoryId);
-    if(!category) return res.status(400).send('No such category found')
-  
+    if(!category) return res.status(400).send('No such category found');
+
+    let image = [];
+
+    if(req.files !== undefined){
+      req.files.map((file, i)=>{
+        image[i] = 'properties/'+file.filename;
+      })
+      // req.body.image = 'avatars/'+req.file.filename;
+     }else{
+      image = 'properties/default.jpg';
+     }
+     console.log(image)
     const property = new Property({
       title: req.body.title,
       address: req.body.address,
       price: req.body.price,
       status: req.body.status,
-      description: req.body.description,
-      user: req.user.id,
+      // user: req.user.id,
       category: {
         _id: category._id,
         name: category.name
       }
     })
-  
+    property.images.unshift(image)  
     const savedproperty = await property.save();
   
     res.status(200).json(savedproperty);

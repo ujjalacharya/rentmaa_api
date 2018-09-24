@@ -58,7 +58,24 @@ exports.loginUser = async (req, res) => {
   jwt.sign(payload, secretKey, { expiresIn: expireTime }, (err, token) => {
     res.json({
       success: true,
-      token: "Bearer " + token
+      token: token
     });
   });
 };
+
+exports.switchAdminRole = async(req, res)=>{
+  const user = await User.findOne({ _id: req.params.id });
+  if (!user) return res.status(400).json("No user found");
+
+  user.isAdmin = !user.isAdmin;
+  await user.save();
+
+  res.status(200).json(user);
+}
+
+exports.getAllUsers = async(req, res)=>{
+  const users = await User.find({}).sort({date: -1});
+  if (!users) return res.status(400).json("No user found");
+
+  res.status(200).json(users)
+}

@@ -19,13 +19,13 @@ Router.route('/properties/search')
 Router.route('/unapprovedproperties')
   .get(ensureAdmin, Properties.getAllUnapprovedProperties);
 Router.route('/change-property-state/:id')
-  .get(ensureAdmin, Properties.changePropertyState);
+  .patch(ensureAdmin, Properties.changePropertyState);
 Router.route('/properties/:id')
   .get(Properties.getProperty)
   .put(ensureLogin, Properties.updateProperty)
   .delete(ensureLogin, Properties.deleteProperty);
 Router.route('/properties/like/:id')
-  .get(ensureLogin, Properties.likeProperty);
+  .patch(ensureLogin, Properties.likeProperty);
 Router.route('/properties/comment/:id')
   .post(ensureLogin, Properties.commentProperty);
 Router.route('/properties/comment/:id/:comment_id')
@@ -43,6 +43,7 @@ Router.route('/categories/:id')
 //User routes
 Router
   .post('/register',uploadAvatar, Users.registerUser)
-  .post('/login', Users.loginUser);
-
+  .post('/login', Users.loginUser)
+  .patch('/switchAdminRole/:id', ensureAdmin, Users.switchAdminRole)
+  .get('/users', ensureAdmin, Users.getAllUsers);
 module.exports = Router;

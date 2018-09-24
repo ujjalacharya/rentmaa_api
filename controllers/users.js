@@ -31,7 +31,7 @@ exports.registerUser = async (req, res) => {
   newuser.password = await bcrypt.hash(newuser.password, salt);
   await newuser.save();
 
-  res.status(200).json({
+  res.status(201).json({
     name: newuser.name,
     email: newuser.email,
     avatar: newuser.avatar

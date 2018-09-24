@@ -22,7 +22,7 @@ exports.postCategory = async(req, res) => {
   });
 
   const savedCategory = await category.save();
-  return res.status(200).json(savedCategory);
+  return res.status(201).json(savedCategory);
 
 };
 

@@ -65,7 +65,7 @@ exports.postProperty = async(req, res) => {
   property.images.unshift(image)  
   const savedproperty = await property.save();
 
-  res.status(200).json(savedproperty);
+  res.status(201).json(savedproperty);
 };
 
 // @@ GET api/properties/:id

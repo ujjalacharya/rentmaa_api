@@ -12,22 +12,17 @@ exports.getAllCategories = async(req, res) => {
 // @@ POST api/categories
 // @@ desc POST Category
 // @@ access Private - TODO
-exports.postCategory = async (req, res) => {
+exports.postCategory = async(req, res) => {
 
   const {error} = validateCategory(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
-  try {
-    const category = new Category({
-      name: req.body.name
-    });
-    const savedCategory = await category.save();
-    return res.status(200).json(savedCategory);
-  }
+  const category = new Category({
+    name: req.body.name
+  });
 
-  catch (err) {
-    return res.status(500).json("Error");
-  }
+  const savedCategory = await category.save();
+  return res.status(200).json(savedCategory);
 
 };
 
@@ -35,42 +30,30 @@ exports.postCategory = async (req, res) => {
 // @@ desc Get a Category
 // @@ access Public
 exports.getCategory = async(req, res)=>{
-  try{
-    const category = await Category.findById(req.params.id);
-    if(!category) return res.status(400).json('No such category found');
-  
-    res.status(200).json(category);
-  }
-  catch(err){
-    return res.status(500).json('Error')
-  }
+  const category = await Category.findById(req.params.id);
+  if(!category) return res.status(400).json('No such category found');
+
+  res.status(200).json(category);
 }
 
 // @@ PUT api/categories/:id
 // @@ desc Update a Category
 // @@ access Prive -TODO
 exports.updateCategory = async(req, res)=>{
-  try{
-  //  const updatedCategory = await Category.findOneAndUpdate({_id: req.params.id}, {$set:{name: req.body.name}}, {new: true});
-    const category = await Category.findById(req.params.id);
-    category.name = req.body.name;
-    await category.save();
-    res.status(200).json(category);
-  }
-  catch(err){
-    res.status(500).json('Error')
-  }
+  //const updatedCategory = await Category.findOneAndUpdate({_id: req.params.id}, {$set:{name: req.body.name}},{new: true});
+
+  const category = await Category.findById(req.params.id);
+  category.name = req.body.name;
+  await category.save();
+
+  res.status(200).json(category);
 }
 
 // @@ DELETE api/categories/:id
 // @@ desc Get a Category
 // @@ access Private - TODO
 exports.deleteCategory= async(req, res)=>{
-  try{
     const deletedCategory = await Category.findOneAndDelete({_id: req.params.id});
+    
     res.status(200).json(deletedCategory);
-  }
-  catch(err){
-    res.status(500).json('Error')
-  }
 }

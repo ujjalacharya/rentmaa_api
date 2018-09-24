@@ -7,7 +7,12 @@ const {validateComment, validateProperty} = require('../validation');
 // @@ desc GET all Properties
 // @@ access Public
 exports.getAllProperties = async(req, res) => {
-  const properties = await Property.find({approved: true}).sort({date: -1});
+  const perPage = 10;
+  const page = req.query.page || 1;   
+  const properties = await Property.find({approved: true})
+  .sort({date: -1})
+  .skip((perPage * page) - perPage)
+  .limit(perPage);
   res.status(200).json(properties);
 };
 
@@ -15,7 +20,12 @@ exports.getAllProperties = async(req, res) => {
 // @@ desc GET all Unapproved Properties
 // @@ access Private- Admin
 exports.getAllUnapprovedProperties = async(req, res) => {
-  const unapprovedproperties = await Property.find({approved: false}).sort({date: -1});
+  const perPage = 10;
+  const page = req.query.page || 1;  
+  const unapprovedproperties = await Property.find({approved: false})
+  .sort({date: -1})
+  .skip((perPage * page) - perPage)
+  .limit(perPage);
   res.status(200).json(unapprovedproperties);
 };
 

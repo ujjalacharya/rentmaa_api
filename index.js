@@ -11,6 +11,9 @@ const bodyParser= require('body-parser');
 const Joi       = require('joi');
 Joi.objectId    = require('joi-objectid')(Joi);
 
+//Serve image uploads
+app.use(express.static('./uploads/'));
+
 //Connection to the database
 mongoose
     .set('useCreateIndex', true)

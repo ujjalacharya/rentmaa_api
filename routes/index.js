@@ -33,7 +33,7 @@ Router.route('/properties/comment/:id/:comment_id')
   
 //Categories routes
 Router.route('/categories')
-  .get(Categories.getAllCategories)
+  .get(ensureLogin, Categories.getAllCategories)
   .post(ensureAdmin, Categories.postCategory);
 Router.route('/categories/:id')
   .get(ensureAdmin, Categories.getCategory)

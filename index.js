@@ -8,11 +8,16 @@ require('express-async-errors');
 const mongoose  = require('mongoose');
 const passport  = require('passport');
 const bodyParser= require('body-parser');
+const cors      = require('cors');
 const Joi       = require('joi');
 Joi.objectId    = require('joi-objectid')(Joi);
 
 //Serve image uploads
 app.use(express.static('./uploads/'));
+
+//Cors middleware
+app.use(cors());
+app.options('*', cors());
 
 //Connection to the database
 mongoose

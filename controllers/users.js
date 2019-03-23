@@ -56,6 +56,9 @@ exports.loginUser = async (req, res) => {
   const payload = { id: user.id, name: user.name, isAdmin: user.isAdmin };
 
   jwt.sign(payload, secretKey, { expiresIn: expireTime }, (err, token) => {
+    res
+    // .header("x-auth-token", token)
+    // .json({success: true});
     res.json({
       success: true,
       token: token
